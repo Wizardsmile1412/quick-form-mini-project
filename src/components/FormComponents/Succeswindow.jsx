@@ -17,7 +17,7 @@ function SuccessWindow({ formInfo, handleNewSurvey }) {
               ส่งแบบสำรวจสำเร็จ!
             </h2>
           </div>
-          <div className="text-black space-y-3">
+          <div className="text-black space-y-3 mt-4">
             <p className="flex gap-x-24">
               <span className="font-semibold text-gray-600">ชื่อ: </span>
               {formInfo.name}
@@ -31,7 +31,11 @@ function SuccessWindow({ formInfo, handleNewSurvey }) {
                 หนังที่เลือก:{" "}
               </span>
               <span className="text-purple-700">{formInfo.selectedOption}</span>
-            </p>
+            </p>  
+
+            {/* Optional comment */}
+            {formInfo.opinion && <RenderOpinion opinion={formInfo.opinion}/>}
+
           </div>
         </div>
         {/* Button */}
@@ -47,6 +51,15 @@ function SuccessWindow({ formInfo, handleNewSurvey }) {
       </div>
     </div>
   );
+}
+
+function RenderOpinion({ opinion }){
+  return(
+  <div className="border-t-1 border-gray-300 flex flex-col gap-y-2 mt-4">
+    <span className="font-semibold text-gray-600 mt-2">ความคิดเห็น: </span>
+    <div className="bg-emerald-100 rounded-lg py-2 pl-4">{opinion}</div>
+  </div>
+  )
 }
 
 export default SuccessWindow;
