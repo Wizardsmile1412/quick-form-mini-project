@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './App.css'
+import './assets/App.css'
 import MovieSurveyForm from './components/MovieSurveyForm'
 
 function App() {
