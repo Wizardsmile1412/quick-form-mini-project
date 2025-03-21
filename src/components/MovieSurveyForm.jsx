@@ -9,7 +9,12 @@ function MovieSurveyForm() {
         opinion: "",
     });
 
-
+    const [errors, setErrors] = useState({
+        name: "",
+        email: "",
+        selectedOption: "",
+        opinion: "",
+    });
 
     const handleChange = (event) => {
         const {name, value} = event.target;
@@ -28,12 +33,44 @@ function MovieSurveyForm() {
       });
     };
 
-
+    const validateForm = () =>{
+      let isValid = true;
+      const newErrors ={
+        name: "",
+        email: "",
+        selectedOption: "",
+        opinion: "",
+      }
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      // Name validation
+      if (!formInfo.name) {
+        newErrors.name = "โปรดใส่ชื่อของคุณ";
+        isValid = false;
+      }
+      // Email validation
+      if (!formInfo.email) {
+        newErrors.email = "โปรดใส่อีเมลของคุณ";
+        isValid = false;
+      } else if (!emailPattern.test(formInfo.email)){
+        newErrors.email = "รูปแบบอีเมลไม่ถูกต้อง";
+        isValid = false;
+      }
+      // Movie validation
+      if(!formInfo.selectedOption) {
+        newErrors.selectedOption = "กรุณาเลือกหนังที่คุณชอบ";
+        isValid = false;
+      }
+        
+      setErrors(newErrors);
+      return isValid
+    }
 
     const handleSubmit = (event) => {
       event.preventDefault();
-      // Do something with formInfo, e.g. console.log or send to an API
-      console.log(formInfo);
+      if (validateForm()) {
+        // Only proceed if the form is valid
+        console.log(formInfo);
+      }
     };
 
 
@@ -54,7 +91,8 @@ function MovieSurveyForm() {
             <h2>Movie Survey</h2>
 
             {/* Form */}
-          <form className="flex flex-col ">
+          <form noValidate className="flex flex-col ">
+
             {/* Name */}
             <label>ชื่อ <span>*</span></label>
             <input
@@ -65,7 +103,8 @@ function MovieSurveyForm() {
                   value={formInfo.name}
                   onChange={handleChange}
                 />
-            
+            {errors.name && <p className="text-red-500">{errors.name}</p>}
+
             {/* Email */}
             <label>อีเมล <span>*</span></label>
             <input
@@ -76,6 +115,7 @@ function MovieSurveyForm() {
                   value={formInfo.email}
                   onChange={handleChange}
                 />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
 
             {/* Movie lists */}
             {movies.map((movie) => (
@@ -90,6 +130,8 @@ function MovieSurveyForm() {
                 {`${movie.title} (${movie.year}) Director: ${movie.director}`}
               </label>
             ))}
+            {errors.selectedOption && <p className="text-red-500">{errors.selectedOption}</p>}
+
 
             {/* Comment */}
             <label>ความคิดเห็นเกี่ยวกับหนัง</label>
